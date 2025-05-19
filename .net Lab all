@@ -1,0 +1,1594 @@
+Q1. Develop web page to display logged in time and current time. 
+
+WebForm1.aspx.cs
+
+
+
+using System;
+
+using System.Collections.Generic;
+
+using System.Linq;
+
+using System.Web;
+
+using System.Web.UI;
+
+using System.Web.UI.WebControls;
+
+
+
+namespace WebApplication1
+
+{
+
+    public partial class WebForm1 : System.Web.UI.Page
+
+    {
+
+        protected void Page_Load(object sender, EventArgs e)
+
+        {
+
+            if (!IsPostBack)
+
+            {
+
+                Literal1.Text = System.DateTime.Now.ToString();
+
+            }
+
+        }
+
+
+
+        protected void Button1_Click1(object sender, EventArgs e)
+
+        {
+
+            Literal2.Text = System.DateTime.Now.ToString();
+
+        }
+
+
+
+        protected void Button2_Click(object sender, EventArgs e)
+
+        {
+
+            Response.End();
+
+        }
+
+    }
+
+}
+
+. Q2. Create web application to demonstrate View State, Session State and application state
+
+WebForm1.aspx.cs
+
+using System;
+
+using System.Web;
+
+using System.Web.UI;
+
+using System.Web.UI.WebControls;
+
+
+
+namespace WebApplication2
+
+{
+
+    public partial class WebForm1 : System.Web.UI.Page
+
+    {
+
+        protected void Page_Load(object sender, EventArgs e)
+
+        {
+
+            if (!IsPostBack) // Ensuring data loads only once
+
+            {
+
+                // Load ViewState Data
+
+                if (ViewState["MyViewState"] != null)
+
+                {
+
+                    lblViewState.Text = "View State Saved: " + ViewState["MyViewState"].ToString();
+
+                }
+
+
+
+                // Load Session Data
+
+                if (Session["MySession"] != null)
+
+                {
+
+                    lblSessionState.Text = "Session Data: " + Session["MySession"].ToString();
+
+                }
+
+
+
+                // Load Application Data
+
+                if (Application["MyApplication"] != null)
+
+                {
+
+                    lblApplicationState.Text = "Application State Saved: " + Application["MyApplication"].ToString();
+
+                }
+
+            }
+
+        }
+
+
+
+        // Save ViewState Data
+
+        protected void btnViewState_Click(object sender, EventArgs e)
+
+        {
+
+            ViewState["MyViewState"] = txtViewState.Text;
+
+            lblViewState.Text = "View State Saved: " + txtViewState.Text;
+
+        }
+
+
+
+        // Save Session Data
+
+        protected void btnSessionState_Click(object sender, EventArgs e)
+
+        {
+
+            Session["MySession"] = txtSessionState.Text;
+
+            lblSessionState.Text = "Session Data: " + txtSessionState.Text;
+
+        }
+
+
+
+        // Save Application Data
+
+        protected void btnApplicationState_Click(object sender, EventArgs e)
+
+        {
+
+            Application["MyApplication"] = txtApplicationState.Text;
+
+            lblApplicationState.Text = "Application State Saved: " + txtApplicationState.Text;
+
+        }
+
+    } 
+
+} 
+Q3. Create web pages using server controls- Textbox, List Controls, Calendar, Imagebutton, Linkbutton. 
+
+1.	Textbox – 
+
+2.	using System;
+
+3.	using System.Collections.Generic;
+
+4.	using System.Linq;
+
+5.	using System.Web;
+
+6.	using System.Web.UI;
+
+7.	using System.Web.UI.WebControls;
+
+8.	
+
+9.	namespace WebApplication3
+
+10.	{
+
+11.	    public partial class WebForm1 : System.Web.UI.Page
+
+12.	    {
+
+13.	        protected void Page_Load(object sender, EventArgs e)
+
+14.	        {
+
+15.	
+
+16.	        }
+
+17.	
+
+18.	        protected void btnCheck_Click(object sender, EventArgs e)
+
+19.	        {
+
+20.	            if (txtPassword.Text == txtRePassword.Text)
+
+21.	            {
+
+22.	                lblMessage.Text = "Password Matched";
+
+23.	                lblMessage.CssClass = "success-text";
+
+24.	            }
+
+25.	            else
+
+26.	            {
+
+27.	                lblMessage.Text = "Password Doesn't Match!";
+
+28.	                lblMessage.CssClass = "error-text";
+
+29.	            }
+
+30.	        }
+
+31.	    }
+
+32.	}
+
+
+
+2. List Controls – 
+
+using System;
+
+using System.Web.UI;
+
+using System.Web.UI.WebControls;
+
+
+
+namespace WebApplication
+
+{
+
+    public partial class ListControls : System.Web.UI.Page
+
+    {
+
+        protected void Page_Load(object sender, EventArgs e)
+
+        {
+
+            if (!IsPostBack)
+
+            {
+
+                lblMessage.Text = "";
+
+            }
+
+        }
+
+
+
+        protected void btnSubmit_Click(object sender, EventArgs e)
+
+        {
+
+            string country = ddlCountry.SelectedValue;
+
+            string gender = rblGender.SelectedValue;
+
+
+
+            string skills = "";
+
+            foreach (ListItem item in chkSkills.Items)
+
+            {
+
+                if (item.Selected)
+
+                {
+
+                    skills += item.Text + ", ";
+
+                }
+
+            }
+
+            skills = skills.TrimEnd(',', ' '); 
+
+
+
+            string cities = "";
+
+            foreach (ListItem item in lstCities.Items)
+
+            {
+
+                if (item.Selected)
+
+                {
+
+                    cities += item.Text + ", ";
+
+                }
+
+            }
+
+            cities = cities.TrimEnd(',', ' '); 
+
+
+
+            lblMessage.Text = string.Format(
+
+                "Country: {0}<br/> Gender: {1}<br/> Skills: {2}<br/> Cities: {3}",
+
+                country, gender, skills, cities);
+
+        }
+
+    }
+
+}
+
+
+
+3. Calendar – 
+
+using System;
+
+using System.Web.UI;
+
+
+
+namespace WebApplication
+
+{
+
+    public partial class WebForm1 : System.Web.UI.Page
+
+    {
+
+        protected void Page_Load(object sender, EventArgs e)
+
+        {
+
+            if (!IsPostBack)
+
+            {
+
+                Label1.Text = "Please select a date.";
+
+            }
+
+        }
+
+
+
+        protected void Calendar1_SelectionChanged(object sender, EventArgs e)
+
+        {
+
+            // Update TextBox with selected date
+
+            TextBox1.Text = Calendar1.SelectedDate.ToShortDateString();
+
+        }
+
+
+
+        protected void Button1_Click(object sender, EventArgs e)
+
+        {
+
+            // Display selected date
+
+            Label1.Text = "You have selected: " + Calendar1.SelectedDate.ToLongDateString();
+
+        }
+
+    }
+
+}
+
+
+4. Imagebutton – 
+
+using System;
+
+using System.Web.UI;
+
+
+
+namespace WebApplication
+
+{
+
+    public partial class WebForm1 : System.Web.UI.Page
+
+    {
+
+        protected void Page_Load(object sender, EventArgs e)
+
+        {
+
+            if (!IsPostBack)
+
+            {
+
+                Label1.Text = "Click the image button!";
+
+            }
+
+        }
+
+
+
+        protected void ImageButton1_Click(object sender, EventArgs e)
+
+        {
+
+            // Display message when image button is clicked
+
+            Label1.Text = "ImageButton clicked! Action performed.";
+
+        }
+
+    }
+
+}
+
+
+5. Linkbutton – 
+
+using System;
+
+using System.Web.UI;
+
+
+
+namespace WebApplication
+
+{
+
+    public partial class WebForm1 : System.Web.UI.Page
+
+    {
+
+        protected void Page_Load(object sender, EventArgs e)
+
+        {
+
+            if (!IsPostBack)
+
+            {
+
+                Label1.Text = "Click the LinkButton to see the message.";
+
+            }
+
+        }
+
+
+
+        protected void LinkButton1_Click(object sender, EventArgs e)
+
+        {
+
+            // Display a message when LinkButton is clicked
+
+            Label1.Text = "You clicked the LinkButton!";
+
+        }
+
+    }
+
+}
+
+Q.4 Create web page to display Kolhapur map using Image map controls with different hotpots.
+
+ <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="KolhapurMap.aspx.cs"
+
+ Inherits="AspExp.KolhapurMap" %>
+
+ <!DOCTYPEhtml>
+
+ <html xmlns="http://www.w3.org/1999/xhtml">
+
+ <head runat="server">
+
+ <title>Kolhapur Map</title>
+
+ <style>
+
+ body {
+
+ font-family: Arial, sans-serif;
+
+ text-align: center;
+
+ margin: 20px;
+
+ }
+
+ img {
+
+ max-width: 100%;
+
+ height: auto;
+
+ }
+
+ .info {
+
+ margin-top: 10px;
+
+ font-size: 1.2em;
+
+ }
+
+ </style>
+
+ </head>
+
+ <body>
+
+ <form id="form1" runat="server">
+
+ <div>
+
+ <h1>Kolhapur Map</h1>
+
+ <img src="Images/kolhapur-city-map.jpg" usemap="#kolhapurmap" alt="Kolhapur
+
+ Map" />
+
+ <map name="kolhapurmap">
+
+ <area
+
+ shape="rect"
+
+ coords="34,44,270,350"
+
+ href="https://en.wikipedia.org/wiki/Kolhapur" alt="Kolhapur City" title="Kolhapur City" />
+
+ <area
+
+ shape="circle"
+
+ coords="400,200,30"
+
+ href="https://en.wikipedia.org/wiki/Rankala_Lake" alt="Rankala Lake" title="Rankala Lake" />
+
+ <area
+
+ shape="poly"
+
+ coords="300,100,350,150,300,200"
+
+ href="https://en.wikipedia.org/wiki/Mahalakshmi_Temple,_Kolhapur" alt="Mahalakshmi Temple"
+
+ title="Mahalakshmi Temple" />
+
+ </map>
+
+ <div class="info">
+
+ <p>Click on the hotspots to learn more about different places in Kolhapur!</p>
+
+ </div>
+
+ </div>
+
+ </form></body></html>
+
+
+
+
+Q.5 Create a webpage to demonstrate Dropdown and ListBoxm (Perform Add,Remove,Edit and Transfer items Operations)
+
+using System;
+
+using System.Web.UI;
+
+using System.Web.UI.WebControls;
+
+
+
+namespace WebApplication
+
+{
+
+    public partial class WebForm1 : System.Web.UI.Page
+
+    {
+
+        protected void Page_Load(object sender, EventArgs e)
+
+        {
+
+            if (!IsPostBack)
+
+            {
+
+                ddlItems.Items.Add("MCA-SW");
+
+                ddlItems.Items.Add("MCA");
+
+                ddlItems.Items.Add("B-Tech");
+
+                ddlItems.Items.Add("BCA");
+
+
+
+                lstItems.Items.Add("Apple");
+
+                lstItems.Items.Add("Banana");
+
+                lstItems.Items.Add("Mango");
+
+                lstItems.Items.Add("Orange");
+
+            }
+
+        }
+
+
+
+        protected void btnAdd_Click(object sender, EventArgs e)
+
+        {
+
+            if (!string.IsNullOrEmpty(txtNewItem.Text))
+
+            {
+
+                lstItems.Items.Add(txtNewItem.Text);
+
+                txtNewItem.Text = "";
+
+                lblMessage.Text = "Item added successfully!";
+
+            }
+
+            else
+
+            {
+
+                lblMessage.Text = "Enter an item before adding.";
+
+            }
+
+        }
+
+        protected void btnRemove_Click(object sender, EventArgs e)
+
+        {
+
+            if (lstItems.SelectedItem != null)
+
+            {
+
+                lstItems.Items.Remove(lstItems.SelectedItem);
+
+                lblMessage.Text = "Item removed successfully!";
+
+            }
+
+            else
+
+            {
+
+                lblMessage.Text = "Please select an item to remove.";
+
+            }
+
+        }
+
+        protected void btnEdit_Click(object sender, EventArgs e)
+
+        {
+
+            if (lstItems.SelectedItem != null && !string.IsNullOrEmpty(txtNewItem.Text))
+
+            {
+
+                lstItems.SelectedItem.Text = txtNewItem.Text;
+
+                lblMessage.Text = "Item updated successfully!";
+
+            }
+
+            else
+
+            {
+
+                lblMessage.Text = "Select an item and enter a new name to edit.";
+
+            }
+
+        }
+
+    }
+
+}
+
+
+
+Transfer items Operations – 
+
+using System;
+
+using System.Web.UI;
+
+using System.Web.UI.WebControls;
+
+
+
+namespace MyAsp
+
+{
+
+    public partial class TwoList : System.Web.UI.Page
+
+    {
+
+        protected void Page_Load(object sender, EventArgs e)
+
+        {
+
+        }
+
+
+
+        // Transfer selected item from ListBox1 to ListBox2
+
+        protected void Button1_Click(object sender, EventArgs e)
+
+        {
+
+            if (ListBox1.SelectedItem != null)
+
+            {
+
+                ListBox2.Items.Add(ListBox1.SelectedItem);
+
+                ListBox1.Items.Remove(ListBox1.SelectedItem);
+
+            }
+
+        }
+
+
+
+        // Transfer all items from ListBox1 to ListBox2
+
+        protected void Button2_Click(object sender, EventArgs e)
+
+        {
+
+            foreach (ListItem item in ListBox1.Items)
+
+            {
+
+                ListBox2.Items.Add(item);
+
+            }
+
+            ListBox1.Items.Clear();
+
+        }
+
+    }
+
+}
+
+
+
+
+Q.6 Develop ASP.Net Application through which user upload Image and that Image should be displayed in Image Control.
+
+
+
+using System;
+
+using System.IO;
+
+using System.Web;
+
+
+
+namespace WebApplication
+
+{
+
+    public partial class WebForm1 : System.Web.UI.Page
+
+    {
+
+        protected void Page_Load(object sender, EventArgs e)
+
+        {
+
+            lblMessage.Text = "";
+
+        }
+
+
+
+        protected void btnUpload_Click(object sender, EventArgs e)
+
+        {
+
+            if (fileUpload.HasFile)
+
+            {
+
+                try
+
+                {
+
+                    string folderPath = Server.MapPath("~/Uploads/");
+
+
+
+                    if (!Directory.Exists(folderPath))
+
+                    {
+
+                        Directory.CreateDirectory(folderPath);
+
+                    }
+
+                    string fileName = Path.GetFileName(fileUpload.FileName);
+
+                    string filePath = folderPath + fileName;
+
+                    fileUpload.SaveAs(filePath);
+
+
+
+                    imgPreview.ImageUrl = "~/Uploads/" + fileName;
+
+                    imgPreview.Visible = true;
+
+
+
+                    lblMessage.Text = "Image uploaded successfully!";
+
+                }
+
+                catch (Exception ex)
+
+                {
+
+                    lblMessage.Text = "Error: " + ex.Message;
+
+                }
+
+            }
+
+            else
+
+            {
+
+                lblMessage.Text = "Please select an image to upload.";
+
+            }
+
+        }
+
+    }
+
+}
+
+using System.Web.UI;
+
+
+
+namespace WebApplication
+
+{
+
+    public partial class WebForm1 : System.Web.UI.Page
+
+    {
+
+        protected void Page_Load(object sender, EventArgs e)
+
+        {
+
+        }
+
+        protected void btnNext1_Click(object sender, EventArgs e)
+
+        {
+
+            MultiView1.ActiveViewIndex = 1;
+
+        }
+
+        protected void btnPrev_Click(object sender, EventArgs e)
+
+        {
+
+            MultiView1.ActiveViewIndex = 0;
+
+        }
+
+
+
+        protected void btnNext2_Click(object sender, EventArgs e)
+
+        {
+
+            MultiView1.ActiveViewIndex = 2;
+
+        }
+
+        protected void btnPrev2_Click(object sender, EventArgs e)
+
+        {
+
+            MultiView1.ActiveViewIndex = 1;
+
+        }
+
+    }
+
+}
+
+
+
+Q.8 Demonstrate Calender control in Asp.net.
+
+using System;
+
+using System.Web.UI;
+
+
+
+namespace WebApplication
+
+{
+
+    public partial class WebForm1 : System.Web.UI.Page
+
+    {
+
+        protected void Page_Load(object sender, EventArgs e)
+
+        {
+
+        }
+
+
+
+        protected void Calendar1_SelectionChanged(object sender, EventArgs e)
+
+        {
+
+            lblSelectedDate.Text = "You selected: " + Calendar1.SelectedDate.ToString("D");
+
+        }
+
+    }
+
+}
+
+
+
+
+
+Q.9  Create Sitemap for online shopping website.
+
+Web.sitemap – 
+
+<?xml version="1.0" encoding="utf-8" ?>
+
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0">
+
+  <siteMapNode url="Sitemap.aspx" title="Online Shopping Website">
+
+    <siteMapNode url="Home.aspx" title="Home >" />
+
+    <siteMapNode url="Categories.aspx" title="Categories >" />
+
+    <siteMapNode url="Product.aspx" title="Product >" />
+
+    <siteMapNode url="Cart.aspx" title="Cart >" />
+
+    <siteMapNode url="Checkout.aspx" title="Checkout >" />
+
+    <siteMapNode url="Profile.aspx" title="Profile >" />
+
+  </siteMapNode>
+
+</siteMap>
+
+
+
+Sitemap.aspx – 
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Sitemap.aspx.cs" Inherits="AspExp.Sitemap" %>
+
+<%@ Register Assembly="System.Web" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head id="Head1" runat="server">
+
+    <title>Site Navigation</title>
+
+</head>
+
+<body>
+
+    <form id="form1" runat="server">
+
+        <div>
+
+            <h2>Site Navigation</h2>
+
+            <asp:SiteMapPath ID="SiteMapPath1" runat="server"></asp:SiteMapPath>
+
+            <br /><br />
+
+            <asp:HyperLink ID="HyperLink1" NavigateUrl="~/Home.aspx">Home</asp:HyperLink> &nbsp;&nbsp;
+
+            <asp:HyperLink ID="HyperLink2" NavigateUrl="~/Categories.aspx">Categories</asp:HyperLink> &nbsp;&nbsp;
+
+            <asp:HyperLink ID="HyperLink3" NavigateUrl="~/Product.aspx">Product Details</asp:HyperLink> &nbsp;&nbsp;
+
+            <asp:HyperLink ID="HyperLink4" NavigateUrl="~/Cart.aspx">Cart</asp:HyperLink> &nbsp;&nbsp;
+
+            <asp:HyperLink ID="HyperLink5" NavigateUrl="~/Checkout.aspx">Checkout</asp:HyperLink> &nbsp;&nbsp;
+
+            <asp:HyperLink ID="HyperLink6" NavigateUrl="~/Profile.aspx">Profile</asp:HyperLink>
+
+        </div>
+
+    </form>
+
+</body>
+
+</html>
+
+
+
+Home.aspx – 
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Home.aspx.cs" Inherits="AspExp.Home" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head id="Head1" runat="server">
+
+    <title>Home</title>
+
+</head>
+
+<body>
+
+    <form id="form1" runat="server">
+
+        <div>
+
+            <h2>Welcome to Our Online Store</h2>
+
+            <h2>Home Page</h2>
+
+            <asp:SiteMapPath ID="SiteMapPath1" runat="server"></asp:SiteMapPath>
+
+            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Categories.aspx">Categories ></asp:HyperLink>
+
+        </div>
+
+    </form>
+
+</body>
+
+</html>
+
+
+
+Categories.aspx – 
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Categories.aspx.cs" Inherits="AspExp.Categories" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head id="Head1" runat="server">
+
+    <title>Categories</title>
+
+</head>
+
+<body>
+
+    <form id="form1" runat="server">
+
+        <div>
+
+            <h2>CATEGORIES</h2>
+
+            <asp:SiteMapPath ID="SiteMapPath1" runat="server"></asp:SiteMapPath>
+
+            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Home.aspx">Home ></asp:HyperLink>
+
+            <asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/Cart.aspx">Cart ></asp:HyperLink>
+
+        </div>
+
+    </form>
+
+</body>
+
+</html>
+
+
+
+Product.aspx – 
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Product.aspx.cs" Inherits="AspExp.Product" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head id="Head1" runat="server">
+
+    <title>Product</title>
+
+</head>
+
+<body>
+
+    <form id="form1" runat="server">
+
+        <div>
+
+            <h2>PRODUCT DETAILS</h2>
+
+            <asp:SiteMapPath ID="SiteMapPath1" runat="server"></asp:SiteMapPath>
+
+            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Categories.aspx">Categories ></asp:HyperLink>
+
+            <asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/Cart.aspx">Cart ></asp:HyperLink>
+
+        </div>
+
+    </form>
+
+</body>
+
+</html>
+
+
+
+Cart.aspx – 
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Cart.aspx.cs" Inherits="AspExp.Cart" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head id="Head1" runat="server">
+
+    <title>Cart</title>
+
+</head>
+
+<body>
+
+    <form id="form1" runat="server">
+
+        <div>
+
+            <h2>YOUR SHOPPING CART</h2>
+
+            <asp:SiteMapPath ID="SiteMapPath1" runat="server"></asp:SiteMapPath>
+
+            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Categories.aspx">Categories ></asp:HyperLink>
+
+            <asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/Checkout.aspx">Checkout ></asp:HyperLink>
+
+        </div>
+
+    </form>
+
+</body>
+
+</html>
+
+
+
+Checkout.aspx – 
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Checkout.aspx.cs" Inherits="AspExp.Checkout" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head id="Head1" runat="server">
+
+    <title>Checkout</title>
+
+</head>
+
+<body>
+
+    <form id="form1" runat="server">
+
+        <div>
+
+            <h2>CHECKOUT PROCESS</h2>
+
+            <asp:SiteMapPath ID="SiteMapPath1" runat="server"></asp:SiteMapPath>
+
+            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Cart.aspx">Cart ></asp:HyperLink>
+
+            <asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/Profile.aspx">Profile ></asp:HyperLink>
+
+        </div>
+
+    </form>
+
+</body>
+
+</html>
+
+
+
+Profile.aspx – 
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Profile.aspx.cs" Inherits="AspExp.Profile" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head id="Head1" runat="server">
+
+    <title>Profile</title>
+
+</head>
+
+<body>
+
+    <form id="form1" runat="server">
+
+        <div>
+
+            <h2>YOUR PROFILE</h2>
+
+            <asp:SiteMapPath ID="SiteMapPath1" runat="server"></asp:SiteMapPath>
+
+            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Checkout.aspx">Checkout ></asp:HyperLink>
+
+            <asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/Home.aspx">Home ></asp:HyperLink>
+
+        </div>
+
+    </form>
+
+</body>
+
+</html>
+
+
+Q.10 Write a program to create a web page showing use of following validation controls 
+
+a. Required field validator 
+
+b. Range validator
+
+c. Compare validator 
+
+d. Custom validator 
+
+e. Regular expression validator 
+
+f. Validation summary
+
+
+
+ValidationDemo.aspx – 
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ValidationDemo.aspx.cs" Inherits="AspExp.ValidationDemo" %>
+
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head id="Head1" runat="server">
+
+    <title>Validation Controls Form</title>
+
+    <style>
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            background-color: #f4f4f4;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            height: 100vh;
+
+        }
+
+        .container {
+
+            background: white;
+
+            padding: 30px;
+
+            width: 400px;
+
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+
+            border-radius: 8px;
+
+        }
+
+        .form-group {
+
+            margin-bottom: 15px;
+
+        }
+
+        label {
+
+            font-weight: bold;
+
+            display: block;
+
+            margin-bottom: 5px;
+
+        }
+
+        input {
+
+            width: 100%;
+
+            padding: 8px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 5px;
+
+        }
+
+        .error {
+
+            color: red;
+
+            font-size: 12px;
+
+        }
+
+        .btn {
+
+            width: 100%;
+
+            padding: 10px;
+
+            background: #007BFF;
+
+            color: white;
+
+            border: none;
+
+            cursor: pointer;
+
+            border-radius: 5px;
+
+        }
+
+        .btn:hover {
+
+            background: #0056b3;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <form id="form1" runat="server">
+
+        <div class="container">
+
+            <h2 style="text-align:center;">User Registration</h2>
+
+
+
+            <div class="form-group">
+
+                <label>Enter Name:</label>
+
+                <asp:TextBox ID="txtName" runat="server"></asp:TextBox>
+
+                <asp:RequiredFieldValidator ID="rfvName" runat="server"
+
+                    ControlToValidate="txtName" ErrorMessage="Name is required!"
+
+                    CssClass="error"></asp:RequiredFieldValidator>
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label>Enter Age (18-60):</label>
+
+                <asp:TextBox ID="txtAge" runat="server"></asp:TextBox>
+
+                <asp:RangeValidator ID="rvAge" runat="server"
+
+                    ControlToValidate="txtAge" MinimumValue="18" MaximumValue="60"
+
+                    Type="Integer" ErrorMessage="Age must be between 18 and 60!"
+
+                    CssClass="error"></asp:RangeValidator>
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label>Confirm Age:</label>
+
+                <asp:TextBox ID="txtConfirmAge" runat="server"></asp:TextBox>
+
+                <asp:CompareValidator ID="cvAge" runat="server"
+
+                    ControlToValidate="txtConfirmAge" ControlToCompare="txtAge"
+
+                    ErrorMessage="Ages do not match!" CssClass="error"></asp:CompareValidator>
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label>Enter Email:</label>
+
+                <asp:TextBox ID="txtEmail" runat="server"></asp:TextBox>
+
+                <asp:RegularExpressionValidator ID="revEmail" runat="server"
+
+                    ControlToValidate="txtEmail"
+
+                    ValidationExpression="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
+
+                    ErrorMessage="Invalid Email Format!" CssClass="error"></asp:RegularExpressionValidator>
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label>Enter Password:</label>
+
+                <asp:TextBox ID="txtPassword" runat="server" TextMode="Password"></asp:TextBox>
+
+                <asp:CustomValidator ID="cvPassword" runat="server"
+
+                    ControlToValidate="txtPassword"
+
+                    OnServerValidate="ValidatePassword"
+
+                    ErrorMessage="Password must be at least 6 characters long!"
+
+                    CssClass="error"></asp:CustomValidator>
+
+            </div>
+
+
+
+            <asp:ValidationSummary ID="vsSummary" runat="server"
+
+                CssClass="error" HeaderText="Please fix the following errors:" />
+
+
+
+            <asp:Button ID="btnSubmit" runat="server" Text="Submit" CssClass="btn" />
+
+        </div>
+
+    </form>
+
+</body>
+
+</html>
+
+
+
+ValidationDemo.aspx.cs – 
+
+using System;
+
+using System.Web.UI;
+
+using System.Web.UI.WebControls;
+
+
+
+namespace AspExp
+
+{
+
+    public partial class ValidationDemo : Page
+
+    {
+
+        protected void Page_Load(object sender, EventArgs e)
+
+        {
+
+        }
+
+        protected void ValidatePassword(object source, ServerValidateEventArgs args)
+
+        {
+
+            if (args.Value.Length >= 6)
+
+                args.IsValid = true;
+
+            else
+
+                args.IsValid = false;
+
+        }
+
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
